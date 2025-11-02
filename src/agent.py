@@ -1,23 +1,15 @@
 import os
 from dotenv import load_dotenv
-# from langchain import hub # Eliminado porque no se usa
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain_core.tools import tool, Tool
 from langchain.prompts import PromptTemplate
-
-# --- Clientes de chat para el selector de LLM ---
 from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace
 from langchain_google_genai import ChatGoogleGenerativeAI
-# La importación de ChatPerplexity ha sido eliminada.
-
 from .tools.calculadora import calcular_promedio_de_notas
 from .tools.buscador import buscar_en_faq, buscador_de_reglamentos
 
 load_dotenv()
-# Opcional: print de depuración para la clave de Google
-# print(f"--- Clave de Google leída del .env: [ {os.getenv('GOOGLE_API_KEY')} ] ---")
 
-# --- Tus herramientas y filtro de seguridad se quedan igual ---
 def filtro_de_seguridad(consulta: str) -> bool:
     consultas_prohibidas = ["examen", "respuestas", "dame la prueba", "hackear"]
     for palabra in consultas_prohibidas:
@@ -44,12 +36,9 @@ def crear_agente():
     )
     tools = [calculadora_academica, buscador_faq, herramienta_buscador_reglamentos]
 
-    # ==================================================================
-    # ---           SELECTOR DE LLM SIMPLIFICADO                   ---
-    # ==================================================================
-    # Simplemente cambia el valor de esta variable para elegir el "cerebro" del agente.
+    #Selector LLM
     # Opciones válidas: "GOOGLE", "HUGGINGFACE"
-    LLM_PROVIDER = "GOOGLE"  # <-- Elige tu proveedor aquí
+    LLM_PROVIDER = "GOOGLE"  #Elige tu proveedor aquí
 
     print(f"--- Usando el proveedor de LLM: {LLM_PROVIDER} ---")
 
@@ -69,9 +58,7 @@ def crear_agente():
     else:
         raise ValueError(f"Proveedor de LLM '{LLM_PROVIDER}' no reconocido. Opciones válidas: GOOGLE, HUGGINGFACE")
 
-    # ==================================================================
-    # ---            DE AQUÍ EN ADELANTE, NADA CAMBIA               ---
-    # ==================================================================
+    # Plantilla de prompt personalizada
     template = """
     Eres un asistente que responde preguntas usando herramientas. Sigue estas reglas ESTRICTAMENTE.
     Para ayudarte, tienes acceso a las siguientes herramientas:

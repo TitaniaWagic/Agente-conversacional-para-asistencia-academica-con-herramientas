@@ -1,7 +1,5 @@
-# En el archivo: src/tools/buscador.py (Con la ruta del archivo corregida)
-
 import json
-from pathlib import Path  # <-- 1. Importamos la clase Path
+from pathlib import Path  # Importamos la clase Path
 from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
@@ -11,7 +9,7 @@ def buscar_en_faq(consulta: str) -> str:
     """
     Busca una respuesta en el archivo faq.json basado en palabras clave.
     """
-    # --- Construimos la ruta absoluta al archivo JSON ---
+    # ruta absoluta al archivo JSON 
     ruta_faq = Path(__file__).resolve().parent.parent.parent / "data" / "faq.json"
     
     with open(ruta_faq, 'r', encoding='utf-8') as f:
@@ -30,7 +28,7 @@ class BuscadorLocal:
     """
     Una clase para manejar la búsqueda semántica en documentos locales.
     """
-    def __init__(self, file_path: Path): # <-- Aceptamos un objeto Path
+    def __init__(self, file_path: Path): #  Aceptamos un objeto Path
         loader = TextLoader(str(file_path), encoding='utf-8') # Convertimos Path a string para el loader
         documents = loader.load()
         
@@ -50,7 +48,7 @@ class BuscadorLocal:
             return resultados[0].page_content
         return "No encontré información sobre eso en los reglamentos."
 
-# --- 2. Construimos la ruta absoluta al archivo de reglamentos ---
+# ruta absoluta al archivo de reglamentos
 # Path(__file__) -> el archivo actual (buscador.py)
 # .resolve()     -> convierte a ruta completa (C:\Users\...)
 # .parent        -> sube a la carpeta /tools
@@ -59,5 +57,5 @@ class BuscadorLocal:
 # / "data" / "reglamentos.txt" -> añade el resto de la ruta
 ruta_reglamentos = Path(__file__).resolve().parent.parent.parent / "data" / "reglamentos.txt"
 
-# --- 3. Creamos la instancia con la ruta correcta ---
+# instancia con la ruta correcta
 buscador_de_reglamentos = BuscadorLocal(ruta_reglamentos)
