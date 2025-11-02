@@ -1,0 +1,14 @@
+[
+  {
+    "pregunta": "¿Cuál es el correo de soporte técnico?",
+    "respuesta": "El correo de soporte técnico es soporte.ti@une.edu.py."
+  },
+  {
+    "pregunta": "¿Cómo puedo cancelar una materia?",
+    "respuesta": "Para cancelar una materia, debes completar el formulario de solicitud en la secretaría académica antes de la fecha límite establecida en el calendario académico."
+  },
+  {
+    "pregunta": "¿Cuáles son los horarios de la biblioteca?",
+    "respuesta": "La biblioteca está abierta de lunes a viernes de 8:00 a 21:00 hs."
+  }
+]
