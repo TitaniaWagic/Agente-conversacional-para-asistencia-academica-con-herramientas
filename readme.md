@@ -1,7 +1,11 @@
 # 🤖 Agente Conversacional Académico con Herramientas (LangChain)
 
-[![Python](https://img.shields.io/badge
-[![LangChain](https://img.shields.io/badge/LangChain(https://www.langchain.comhttps://img.shields.io/badge/License
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
+
+[![LangChain](https://img.shields.io/badge/LangChain-0.2.5-green.svg)](https://www.langchain.com/)
+
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Este proyecto implementa un agente conversacional inteligente con orquestación de herramientas para asistencia académica, desarrollado como trabajo final de **Inteligencia Artificial I** (2025). Proporciona soporte 24/7 a estudiantes para consultas sobre reglamentos, cálculos de notas y preguntas frecuentes, utilizando IA moderna, reglas de seguridad y búsqueda semántica.
 
 ***
