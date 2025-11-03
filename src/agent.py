@@ -5,7 +5,14 @@ from langchain_core.tools import tool, Tool
 from langchain.prompts import PromptTemplate
 from langchain_huggingface import HuggingFaceEndpoint, ChatHuggingFace
 from langchain_google_genai import ChatGoogleGenerativeAI
-from .tools.calculadora import calcular_promedio_de_notas
+from .tools.calculadora import (
+    calcular_promedio_de_notas,
+    calcular_nota_para_aprobar,
+    calcular_nota_para_exonerar,
+    verificar_riesgo_cancelacion_matricula,
+    verificar_estado_asignatura,
+    convertir_porcentaje_a_nota
+)
 from .tools.buscador import buscar_en_faq, buscador_de_reglamentos
 
 load_dotenv()
@@ -27,6 +34,113 @@ def buscador_faq(consulta: str) -> str:
     """Útil para responder preguntas frecuentes sobre temas generales como horarios o correos."""
     return buscar_en_faq(consulta)
 
+@tool
+def conversor_porcentaje_nota(consulta: str) -> str:
+    """Útil para convertir un porcentaje a una nota según el sistema de calificaciones (Art. 90).
+    El usuario pregunta qué nota tiene con un porcentaje específico.
+    Ejemplos: '¿qué nota tengo si tengo 75%?', 'tengo 85%, qué nota es?', 'con 60% qué nota saco?'
+    """
+    import re
+    try:
+        # Buscar el porcentaje en la consulta
+        porcentaje_match = re.search(r'(\d+\.?\d*)\s*%', consulta, re.IGNORECASE)
+        if not porcentaje_match:
+            # Intentar buscar solo el número
+            porcentaje_match = re.search(r'(\d+\.?\d*)', consulta)
+        
+        if porcentaje_match:
+            porcentaje = float(porcentaje_match.group(1))
+            return convertir_porcentaje_a_nota(porcentaje)
+        else:
+            return "No pude encontrar un porcentaje en tu consulta. Por favor, indica el porcentaje, por ejemplo: '¿qué nota tengo con 75%?'"
+    except (AttributeError, ValueError):
+        return "Error al procesar el porcentaje. Por favor, escribe algo como: '¿qué nota tengo con 75%?'"
+
+@tool
+def calculadora_nota_aprobar(consulta: str) -> str:
+    """Útil para calcular qué nota necesita un estudiante en el examen final para aprobar.
+    El usuario debe proporcionar: primera parcial, segunda parcial, trabajo práctico, 
+    trabajo laboratorio (si aplica), y la opción (A, B, o C).
+    Ejemplo: 'primera parcial 80, segunda parcial 75, trabajo practico 90, trabajo laboratorio 0, opcion A'
+    """
+    import re
+    # Extraer los valores de la consulta
+    try:
+        pp1 = float(re.search(r'primera\s+parcial[:\s]+(\d+\.?\d*)', consulta, re.IGNORECASE).group(1))
+        pp2 = float(re.search(r'segunda\s+parcial[:\s]+(\d+\.?\d*)', consulta, re.IGNORECASE).group(1))
+        tp = float(re.search(r'trabajo\s+pr[aá]ctico[:\s]+(\d+\.?\d*)', consulta, re.IGNORECASE).group(1))
+        tl_match = re.search(r'trabajo\s+laboratorio[:\s]+(\d+\.?\d*)', consulta, re.IGNORECASE)
+        tl = float(tl_match.group(1)) if tl_match else 0
+        opcion_match = re.search(r'opci[oó]n[:\s]+([ABC])', consulta, re.IGNORECASE)
+        opcion = opcion_match.group(1).upper() if opcion_match else "A"
+        
+        return calcular_nota_para_aprobar(pp1, pp2, tp, tl, opcion)
+    except (AttributeError, ValueError) as e:
+        return """Para calcular la nota necesaria, proporciona la información en este formato:
+        'primera parcial X, segunda parcial Y, trabajo practico Z, trabajo laboratorio W, opcion A/B/C'
+        Por ejemplo: 'primera parcial 80, segunda parcial 75, trabajo practico 90, trabajo laboratorio 0, opcion A'
+        """
+
+@tool
+def calculadora_exoneracion(consulta: str) -> str:
+    """Útil para calcular si un estudiante puede exonerar el examen final o qué le falta.
+    El usuario debe proporcionar: primera parcial, segunda parcial, trabajo práctico, 
+    trabajo laboratorio (si aplica), y la opción (A, B, o C).
+    """
+    import re
+    try:
+        pp1 = float(re.search(r'primera\s+parcial[:\s]+(\d+\.?\d*)', consulta, re.IGNORECASE).group(1))
+        pp2 = float(re.search(r'segunda\s+parcial[:\s]+(\d+\.?\d*)', consulta, re.IGNORECASE).group(1))
+        tp = float(re.search(r'trabajo\s+pr[aá]ctico[:\s]+(\d+\.?\d*)', consulta, re.IGNORECASE).group(1))
+        tl_match = re.search(r'trabajo\s+laboratorio[:\s]+(\d+\.?\d*)', consulta, re.IGNORECASE)
+        tl = float(tl_match.group(1)) if tl_match else 0
+        opcion_match = re.search(r'opci[oó]n[:\s]+([ABC])', consulta, re.IGNORECASE)
+        opcion = opcion_match.group(1).upper() if opcion_match else "A"
+        
+        return calcular_nota_para_exonerar(pp1, pp2, tp, tl, opcion)
+    except (AttributeError, ValueError):
+        return """Para calcular la exoneración, proporciona la información en este formato:
+        'primera parcial X, segunda parcial Y, trabajo practico Z, trabajo laboratorio W, opcion A/B/C'
+        """
+
+@tool
+def verificador_cancelacion_matricula(consulta: str) -> str:
+    """Útil para verificar si un estudiante está en riesgo de cancelación de matrícula por exceso de aplazos.
+    El usuario debe proporcionar: número de aplazos acumulados y total de materias en el plan de estudios.
+    Ejemplo: 'tengo 15 aplazos de 50 materias'
+    """
+    import re
+    try:
+        aplazos = int(re.search(r'(\d+)\s+aplazos?', consulta, re.IGNORECASE).group(1))
+        total = int(re.search(r'de\s+(\d+)\s+materias?', consulta, re.IGNORECASE).group(1))
+        
+        return verificar_riesgo_cancelacion_matricula(aplazos, total)
+    except (AttributeError, ValueError):
+        return """Para verificar el riesgo de cancelación, proporciona:
+        'tengo X aplazos de Y materias totales'
+        Por ejemplo: 'tengo 10 aplazos de 40 materias'
+        """
+
+@tool
+def verificador_estado_materia(consulta: str) -> str:
+    """Útil para verificar el estado de un estudiante en una materia específica según número de aplazos.
+    El usuario debe proporcionar cuántas veces ha sido aplazado en esa materia.
+    Ejemplo: 'he sido aplazado 2 veces en esta materia'
+    """
+    import re
+    try:
+        aplazos = int(re.search(r'(\d+)\s+veces?', consulta, re.IGNORECASE).group(1))
+        return verificar_estado_asignatura(aplazos)
+    except (AttributeError, ValueError):
+        try:
+            aplazos = int(re.search(r'(\d+)\s+aplazos?', consulta, re.IGNORECASE).group(1))
+            return verificar_estado_asignatura(aplazos)
+        except (AttributeError, ValueError):
+            return """Para verificar el estado en una materia, indica:
+            'he sido aplazado X veces en esta materia'
+            Por ejemplo: 'he sido aplazado 2 veces en esta materia'
+            """
+
 
 def crear_agente():
     herramienta_buscador_reglamentos = Tool(
@@ -34,7 +148,16 @@ def crear_agente():
         func=buscador_de_reglamentos.buscar,
         description="Útil para responder preguntas específicas sobre el reglamento académico, como reglas de asistencia, calificaciones, o condiciones de examen."
     )
-    tools = [calculadora_academica, buscador_faq, herramienta_buscador_reglamentos]
+    tools = [
+        calculadora_academica, 
+        buscador_faq, 
+        conversor_porcentaje_nota,
+        herramienta_buscador_reglamentos,
+        calculadora_nota_aprobar,
+        calculadora_exoneracion,
+        verificador_cancelacion_matricula,
+        verificador_estado_materia
+    ]
 
     #Selector LLM
     # Opciones válidas: "GOOGLE", "HUGGINGFACE"

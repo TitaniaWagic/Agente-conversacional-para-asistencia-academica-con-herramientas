@@ -26,7 +26,14 @@ Este proyecto implementa un agente conversacional inteligente con orquestación 
 ## ✨ Características Principales
 
 - **Orquestación de Herramientas**: Toma decisiones dinámicas sobre qué módulo invocar.
-- **Calculadora Académica**: Extrae notas de texto natural y calcula el promedio.
+- **Calculadora Académica Avanzada**: 
+  - Calcula promedios de notas
+  - **🆕 Convierte porcentajes a notas** (según escala del Art. 90)
+  - Determina nota necesaria en el examen final para aprobar
+  - Calcula posibilidad de exoneración (94% en evaluaciones parciales)
+  - Verifica riesgo de cancelación de matrícula por aplazos (Art. 71)
+  - Analiza estado en asignaturas específicas (Art. 70)
+  - Soporta 3 opciones de distribución de porcentajes de evaluación
 - **Buscador de FAQ**: Consulta en una base JSON con respuestas predefinidas; búsqueda por similitud textual.
 - **Buscador Semántico RAG**: Recupera información de reglamentos académicos usando embeddings y FAISS.
 - **Filtro de Seguridad**: Bloquea solicitudes inapropiadas según reglas académicas.
@@ -214,6 +221,153 @@ Ejecuta el agente académico en la terminal:
 ```bash
 python -m src.main
 ```
+
+### 💡 Ejemplos de Consultas
+
+#### 1. Convertir Porcentaje a Nota 🆕
+```
+Usuario: ¿Qué nota tengo si tengo un 75%?
+
+Agente:
+📊 CONVERSIÓN DE PORCENTAJE A NOTA (Art. 90)
+==================================================
+
+Porcentaje obtenido: 75.0%
+Nota correspondiente: 3 (70% - 80%)
+Estado: ✅ APROBADO
+
+📋 Sistema de Calificaciones:
+   • Nota 1: 0% - 59% (Reprobado)
+   • Nota 2: 60% - 69% (Aprobado - mínimo)
+   • Nota 3: 70% - 80% (Aprobado)
+   • Nota 4: 81% - 93% (Muy bueno)
+   • Nota 5: 94% - 100% (Excelente)
+```
+
+#### 2. Calcular Promedio de Notas
+```
+Usuario: ¿Cuál es el promedio de 85, 90 y 78?
+Agente: El promedio de las notas [85.0, 90.0, 78.0] es: 84.33
+```
+
+#### 3. Calcular Nota para Aprobar
+```
+Usuario: Tengo primera parcial 80, segunda parcial 75, trabajo practico 90, trabajo laboratorio 0, opcion A. ¿Qué necesito en el final para aprobar?
+
+Agente: 
+📊 CÁLCULO DE NOTAS - Opción A
+==================================================
+
+📝 Evaluaciones Parciales (40% del total):
+   • Primera Parcial (15%): 80% = 12.00 puntos
+   • Segunda Parcial (20%): 75% = 15.00 puntos
+   • Trabajo Práctico (5%): 90% = 4.50 puntos
+   • Trabajo Laboratorio (0%): 0% = 0.00 puntos
+   
+   Total Parciales: 31.50/40 puntos (78.75%)
+
+🎓 Estado de Exoneración:
+   ❌ No exonerado. Necesitas 15.25% más para exonerar.
+
+📋 Examen Final (60% del total):
+   Para APROBAR (nota 2 = 60% del total):
+   Necesitas: 47.50% en el examen final
+   
+   Para nota 3 (70% del total):
+   Necesitas: 64.17% en el examen final
+```
+
+#### 4. Verificar Exoneración
+```
+Usuario: Primera parcial 95, segunda parcial 98, trabajo practico 100, trabajo laboratorio 0, opcion A. ¿Puedo exonerar?
+
+Agente: 
+✅ ¡FELICITACIONES! Ya has exonerado el examen final.
+   
+   Puntos obtenidos: 37.65/40 (94.13%)
+   Puntos necesarios para exonerar: 37.60/40 (94%)
+   
+   No necesitas rendir el examen final. ¡Bien hecho! 🎉
+```
+
+#### 5. Verificar Riesgo de Cancelación de Matrícula
+```
+Usuario: Tengo 15 aplazos de 50 materias. ¿Estoy en riesgo?
+
+Agente:
+✅ Estado Normal
+==================================================
+
+Tienes 15 aplazos de 50 materias (30.0%).
+Límite permitido: 15 aplazos (30% del plan).
+
+Aplazos disponibles: 0
+
+⚠️ ¡ATENCIÓN! Has alcanzado exactamente el límite.
+No puedes acumular más aplazos sin consecuencias.
+```
+
+#### 6. Verificar Estado en una Materia
+```
+Usuario: He sido aplazado 2 veces en esta materia. ¿Qué pasa si repruebo de nuevo?
+
+Agente:
+⚠️ ADVERTENCIA - Última Oportunidad
+==================================================
+
+Has sido aplazado 2 veces en esta asignatura.
+
+⚠️ Este es tu ÚLTIMO intento antes de tener que recursar.
+
+Si vuelves a reprobar:
+- Deberás cursar la materia nuevamente
+- Tendrás que cumplir todos los requisitos otra vez
+
+¡Prepárate bien para este examen!
+```
+
+#### 7. Consultar Reglamentos
+```
+Usuario: ¿Cómo funciona el sistema de calificaciones?
+
+Agente: Según el Art. 90, las calificaciones van del 1 al 5:
+- 1 (0-59%)
+- 2 (60-69%) - Nota mínima para aprobar
+- 3 (70-80%)
+- 4 (81-93%)
+- 5 (94-100%)
+```
+
+### 📚 Opciones de Evaluación
+
+El sistema soporta tres opciones de distribución de porcentajes:
+
+**Opción A:**
+- Primera Parcial: 15%
+- Segunda Parcial: 20%
+- Trabajo Práctico: 5%
+- Trabajo en Laboratorio: 0%
+- Examen Final: 60%
+
+**Opción B:**
+- Primera Parcial: 10%
+- Segunda Parcial: 20%
+- Trabajo Práctico: 5%
+- Trabajo en Laboratorio: 5%
+- Examen Final: 60%
+
+**Opción C:**
+- Primera Parcial: 10%
+- Segunda Parcial: 20%
+- Trabajo Práctico: 0%
+- Trabajo en Laboratorio: 10%
+- Examen Final: 60%
+
+### 📋 Artículos Implementados
+
+- **Art. 70**: Restricción por 3 aplazos en la misma asignatura
+- **Art. 71**: Cancelación automática de matrícula por 30% de aplazos
+- **Art. 90**: Sistema de calificaciones (1-5)
 
 Prueba también los notebooks en la carpeta `/notebooks` para ver ejemplos, casos de prueba y validar exactitud y cobertura de las herramientas.
 

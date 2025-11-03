@@ -10,5 +10,33 @@
   {
     "pregunta": "¿Cuáles son los horarios de la biblioteca?",
     "respuesta": "La biblioteca está abierta de lunes a viernes de 8:00 a 21:00 hs."
+  },
+  {
+    "pregunta": "¿Cómo funciona el sistema de calificaciones?",
+    "respuesta": "Según el Art. 90, las calificaciones van del 1 al 5: 1 (0-59%), 2 (60-69%), 3 (70-80%), 4 (81-93%), 5 (94-100%). La nota mínima para aprobar es 2 (60%)."
+  },
+  {
+    "pregunta": "¿Qué pasa si repruebo tres veces la misma materia?",
+    "respuesta": "Según el Art. 70, si has sido aplazado tres veces en la misma asignatura, no podrás presentarte a otra evaluación final sin antes volver a cursar la asignatura y satisfacer nuevamente todos los requisitos."
+  },
+  {
+    "pregunta": "¿Cuántos aplazos puedo tener antes de que me cancelen la matrícula?",
+    "respuesta": "Según el Art. 71, si acumulas un número de aplazos equivalente al 30% del total de materias de tu plan de estudios, se te cancelará automática y definitivamente la matrícula."
+  },
+  {
+    "pregunta": "¿Cómo puedo exonerar el examen final?",
+    "respuesta": "Para exonerar el examen final (que vale 60%), necesitas obtener 94% o más en las evaluaciones parciales (que valen el 40% restante). Si no alcanzas este porcentaje, deberás rendir el examen final."
+  },
+  {
+    "pregunta": "¿Qué opciones de evaluación existen?",
+    "respuesta": "Existen tres opciones: Opción A (PP1:15%, PP2:20%, TP:5%, Final:60%), Opción B (PP1:10%, PP2:20%, TP:5%, TL:5%, Final:60%), Opción C (PP1:10%, PP2:20%, TL:10%, Final:60%). El docente elige cuál aplicar."
+  },
+  {
+    "pregunta": "¿Qué nota tengo si saco 75%?",
+    "respuesta": "Con un 75% tienes una nota de 3 (TRES), que corresponde al rango de 70% - 80%. Es una nota aprobatoria según el Art. 90."
+  },
+  {
+    "pregunta": "¿Cómo sé qué nota me corresponde con un porcentaje?",
+    "respuesta": "El sistema es: 1 (0-59% reprobado), 2 (60-69% aprobado mínimo), 3 (70-80% aprobado), 4 (81-93% muy bueno), 5 (94-100% excelente). Puedes preguntarme directamente con tu porcentaje."
   }
 ]

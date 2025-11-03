@@ -1,7 +1,49 @@
 Reglamento Académico General - Resumen
 
-Artículo 15: De las calificaciones. Las notas van en una escala de 1 a 5. La nota mínima para aprobar una materia es 2.
+SISTEMA DE CALIFICACIONES
 
-Artículo 32: De la asistencia. Se requiere un mínimo de 70% de asistencia a las clases teóricas y prácticas para tener derecho al examen final.
+Artículo 90: La escala de calificaciones a ser utilizada en las evaluaciones finales es la siguiente:
+- de 0% hasta cualquier valor menor a 60%: 1 (UNO)
+- de 60% hasta cualquier valor menor a 70%: 2 (DOS)
+- de 70% hasta cualquier valor menor a 81%: 3 (TRES)
+- de 81% hasta cualquier valor menor a 94%: 4 (CUATRO)
+- de 94% hasta 100%: 5 (CINCO)
 
-Artículo 45: Sobre el examen final. El estudiante tiene derecho a cuatro oportunidades de examen final. Si reprueba las cuatro, deberá recursar la materia.
+EVALUACIONES Y EXÁMENES
+
+Artículo 70: Los alumnos que hayan sido aplazados tres veces en la misma asignatura no podrán presentarse de nuevo a otra evaluación final sin antes volver a cursar la asignatura y satisfacer nuevamente todos los requisitos exigidos por la misma.
+
+Artículo 71: A los alumnos que hayan acumulado durante su carrera un número de aplazos equivalente al 30% (treinta por ciento) del número de materias que componen su plan de estudios, se les cancelará automática y definitivamente su matrícula.
+
+Artículo x2: De la asistencia. Se requiere un mínimo de 70% de asistencia a las clases teóricas y prácticas para tener derecho al examen final.
+
+Articulo x3: Sobre el examen final, el estudiante tiene derecho a cuatro oportunidades de examen final. Si reprueba las cuatro, deberá recursar la materia.
+
+DISTRIBUCIÓN DE PORCENTAJES DE EVALUACIÓN
+
+Los docentes pueden elegir entre tres opciones para distribuir los porcentajes de evaluación:
+
+Opción A:
+- Primera Parcial: 15%
+- Segunda Parcial: 20%
+- Trabajo Práctico: 5%
+- Trabajo en Laboratorio: 0%
+- Examen Final: 60%
+
+Opción B:
+- Primera Parcial: 10%
+- Segunda Parcial: 20%
+- Trabajo Práctico: 5%
+- Trabajo en Laboratorio: 5%
+- Examen Final: 60%
+
+Opción C:
+- Primera Parcial: 10%
+- Segunda Parcial: 20%
+- Trabajo Práctico: 0%
+- Trabajo en Laboratorio: 10%
+- Examen Final: 60%
+
+EXONERACIÓN:
+Para poder exonerar el examen final (que representa el 60%), el estudiante necesita obtener 94% o más en el 40% restante de las evaluaciones parciales. Si no alcanza este porcentaje, deberá rendir el examen final para completar el 60% del total de la nota.
+
