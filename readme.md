@@ -76,6 +76,20 @@ TP final IA/
 
 ***
 
+### APIs Necesarias
+
+Para usar el selector de LLM, necesitarás al menos una de estas claves:
+
+1. **Google Gemini API** (Recomendado - Gratis)
+   - Registro: [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - Modelo usado: `gemini-2.5-flash`
+
+2. **Hugging Face API** (Alternativa)
+   - Registro: [Hugging Face](https://huggingface.co/settings/tokens)
+   - Modelo usado: `mistralai/Mistral-7B-Instruct-v0.2`
+
+***
+
 ## 🚀 Instalación Rápida
 
 1. Clonar el repositorio:
@@ -113,6 +127,84 @@ TP final IA/
     ```python
     LLM_PROVIDER = "GOOGLE"  # O "HUGGINGFACE"
     ```
+
+***
+
+### Proveedores Disponibles
+
+#### 1. **Google Gemini** (Por defecto)
+
+**Ventajas**:
+- ✅ Rápido y eficiente
+- ✅ API gratuita con límites generosos
+- ✅ Excelente comprensión del español
+- ✅ Baja latencia
+
+**Configuración**:
+```python
+if LLM_PROVIDER == "GOOGLE":
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-2.5-flash",
+        temperature=0.1  # Respuestas más determinísticas
+    )
+```
+
+**Obtener API Key**:
+1. Ve a [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Crea un nuevo proyecto
+3. Genera una API key
+4. Añádela al `.env`: `GOOGLE_API_KEY=tu_clave`
+
+#### 2. **Hugging Face (Mistral-7B)**
+
+**Ventajas**:
+- ✅ Open source
+- ✅ Control total sobre el modelo
+- ✅ Sin límites de uso (dependiendo del plan)
+- ✅ Puede ejecutarse localmente
+
+**Configuración**:
+```python
+elif LLM_PROVIDER == "HUGGINGFACE":
+    llm_endpoint = HuggingFaceEndpoint(
+        repo_id="mistralai/Mistral-7B-Instruct-v0.2",
+        task="text-generation",
+        max_new_tokens=256,
+        temperature=0.1,
+        stop_sequences=["\nObservation:", "\nThought:"]
+    )
+    llm = ChatHuggingFace(llm=llm_endpoint)
+```
+
+**Obtener Token**:
+1. Regístrate en [Hugging Face](https://huggingface.co/)
+2. Ve a [Settings → Access Tokens](https://huggingface.co/settings/tokens)
+3. Crea un token de tipo "Read"
+4. Añádelo al `.env`: `HUGGINGFACEHUB_API_TOKEN=tu_token`
+
+### Añadir Nuevos Proveedores
+
+Para añadir un nuevo proveedor (ejemplo: OpenAI):
+
+1. Instala el cliente:
+```bash
+pip install langchain-openai
+```
+
+2. Añade el import en `src/agent.py`:
+```python
+from langchain_openai import ChatOpenAI
+```
+
+3. Añade la condición en el selector:
+```python
+elif LLM_PROVIDER == "OPENAI":
+    llm = ChatOpenAI(
+        model="gpt-4",
+        temperature=0.1,
+        api_key=os.getenv("OPENAI_API_KEY")
+    )
+```
 
 ***
 
@@ -160,9 +252,13 @@ Ideas para mejorar el proyecto:
 
 ***
 
-## 🏆 Referencias y Marco Teórico
+## Referencias y Recursos
 
-Consulta sobre el estado del arte, orquestación de herramientas y justificación académica en los apartados teóricos y referencias del repositorio.[2][3][1]
+- [Documentación de LangChain](https://python.langchain.com/)
+- [Google Gemini API Docs](https://ai.google.dev/)
+- [Hugging Face Inference API](https://huggingface.co/docs/api-inference/)
+- [FAISS Documentation](https://github.com/facebookresearch/faiss)
+- [Sentence-Transformers](https://www.sbert.net/)
 
 ***
 
