@@ -7,7 +7,7 @@ def calcular_promedio_de_notas(texto_con_notas: str) -> str:
     y calcula su promedio.
     Devuelve un string con el resultado o un mensaje de error.
     """
-    # Usamos expresiones regulares para encontrar todos los números (enteros o decimales)
+    # expresiones regulares para encontrar todos los números (enteros o decimales)
     numeros_encontrados = re.findall(r'\d+\.?\d*', texto_con_notas)
     
     if not numeros_encontrados:
